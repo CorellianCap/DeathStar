@@ -1,0 +1,36 @@
+# .NET Desktop
+# Build and run tests for .NET Desktop or Windows classic desktop solutions.
+# Add steps that publish symbols, save build artifacts, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/windows/dot-net
+
+trigger:
+- master
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  buildDotNetVersion: '6'
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .NET SDK'
+  inputs:
+    version: '$(buildDotNetVersion).x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack Tool'
+  inputs:
+    command: pack
+    arguments: '--configuration $(buildConfiguration)'
+    packagesToPack: '**/Corellian.DeathStar.Tool.csproj'
+    packDirectory: 'Corellian.DeathStar.Tool/bin/$(buildConfiguration)/net$(buildDotNetVersion).0/pack/'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact Tool'
+  inputs:
+    PathtoPublish: 'Corellian.DeathStar.Tool/bin/$(buildConfiguration)/net$(buildDotNetVersion).0/pack/'
+    ArtifactName: Tool
