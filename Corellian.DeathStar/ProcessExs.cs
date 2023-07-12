@@ -35,7 +35,7 @@ namespace Corellian.DeathStar
                 {
                     try
                     {
-                        WindowsKill.WindowsKill.sendSignal(Convert.ToUInt32(process.Id), WindowsKill.WindowsKill.SIGNAL_TYPE_CTRL_C);
+                        WindowsKill.WindowsKill.sendSignal(Convert.ToUInt32(process.Id), WindowsKill.WindowsKill.SIGNAL_TYPE_CTRL_BREAK);
                         return true;
                     }
                     catch (SEHException)
@@ -60,20 +60,22 @@ namespace Corellian.DeathStar
             {
                 if (r > 0)
                 {
-                    await Task.Delay(signalKillRetryDelay);
+                    await Task.Delay(signalKillRetryDelay).ConfigureAwait(false);
                 }
 
                 var signalKillSent = process.SignalKill();
-                Debug.WriteLine($"SignalKill {process.Id} {signalKillSent}");
+                Debug.WriteLine($"SignalKill {process.Id} attempt {r} was sent {signalKillSent}");
 
                 for (var c = 0; c < signalKillCheckCount; c++)
                 {
-                    await Task.Delay(signalKillCheckDelay);
+                    await Task.Delay(signalKillCheckDelay).ConfigureAwait(false);
 
                     if (process is { HasExited: true })
                     {
+                        Debug.WriteLine($"SignalKill {process.Id} has exited {process.HasExited}");
                         return true;
                     }
+                    Debug.WriteLine($"SignalKill {process.Id} has exited {process.HasExited}");
                 }
             }
 
@@ -82,20 +84,22 @@ namespace Corellian.DeathStar
             {
                 if (r > 0 || signalKillRetryCount > 0)
                 {
-                    await Task.Delay(processKillRetryDelay);
+                    await Task.Delay(processKillRetryDelay).ConfigureAwait(false);
                 }
 
                 process.Kill(true);
-                Debug.WriteLine($"Kill {process.Id}");
+                Debug.WriteLine($"Kill {process.Id} attempt {r}");
 
                 for (int i = 0; i < processKillCheckCount; i++)
                 {
-                    await Task.Delay(processKillCheckDelay);
+                    await Task.Delay(processKillCheckDelay).ConfigureAwait(false);
 
                     if (process is { HasExited: true })
                     {
+                        Debug.WriteLine($"SignalKill {process.Id} has exited {process.HasExited}");
                         return true;
                     }
+                    Debug.WriteLine($"Kill {process.Id} has exited {process.HasExited}");
                 }
             }
 
