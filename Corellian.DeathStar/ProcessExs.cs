@@ -19,13 +19,10 @@ namespace Corellian.DeathStar
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                var assemblyPath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(ProcessExs))!.Location);
+                var x = Environment.Is64BitProcess ? "x64" : "x86";
 
-                var windowsKillLibraryPath = Environment.Is64BitProcess
-                    ? Path.Combine(assemblyPath!, @"Signals\x64\windows-kill-library.dll")
-                    : Path.Combine(assemblyPath!, @"Signals\x86\windows-kill-library.dll");
-
-                NativeLibrary.Load(windowsKillLibraryPath);
+                NativeLibraryEx.LoadFromResource(Assembly.GetAssembly(typeof(ProcessExs))!,
+                    $"Corellian.DeathStar.Signals.{x}.windows-kill-library.dll", $"{x}\\windows-kill-library.dll");
             }
         }
 

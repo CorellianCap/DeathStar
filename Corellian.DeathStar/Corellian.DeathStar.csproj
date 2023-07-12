@@ -7,12 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="Signals\x64\windows-kill-library.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Signals\x86\windows-kill-library.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="Signals\x64\windows-kill-library.dll" />
+    <EmbeddedResource Include="Signals\x86\windows-kill-library.dll" />
   </ItemGroup>
 
 </Project>
