@@ -17,20 +17,29 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use .NET SDK'
+  displayName: Use .NET SDK
   inputs:
     version: '$(buildDotNetVersion).x'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Pack Tool'
+  displayName: Build
+  inputs:
+    projects: '**/*.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: Pack
   inputs:
     command: pack
     arguments: '--configuration $(buildConfiguration)'
-    packagesToPack: '**/Corellian.DeathStar.Tool.csproj'
-    packDirectory: 'Corellian.DeathStar.Tool/bin/$(buildConfiguration)/net$(buildDotNetVersion).0/pack/'
+    packagesToPack: >-
+      Corellian.DeathStar/Corellian.DeathStar.csproj;
+      Corellian.DeathStar.Tool/Corellian.DeathStar.Tool.csproj;
+    nobuild: true
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact Tool'
+  displayName: Publish
   inputs:
-    PathtoPublish: 'Corellian.DeathStar.Tool/bin/$(buildConfiguration)/net$(buildDotNetVersion).0/pack/'
-    ArtifactName: Tool
+    ArtifactName: Drop
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
