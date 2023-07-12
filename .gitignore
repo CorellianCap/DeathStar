@@ -396,3 +396,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+# DeathStar
+!Corellian.DeathStar/WindowsKill/x86*
+!Corellian.DeathStar/WindowsKill/x64*
