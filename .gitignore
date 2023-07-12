@@ -399,5 +399,5 @@ FodyWeavers.xsd
 
 
 # DeathStar
-!Corellian.DeathStar/WindowsKill/x86*
-!Corellian.DeathStar/WindowsKill/x64*
+!Corellian.DeathStar/Signals/x86*
+!Corellian.DeathStar/Signals/x64*

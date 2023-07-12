@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="WindowsKill\x64\windows-kill-library.dll">
+    <None Update="Signals\x64\windows-kill-library.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="WindowsKill\x86\windows-kill-library.dll">
+    <None Update="Signals\x86\windows-kill-library.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

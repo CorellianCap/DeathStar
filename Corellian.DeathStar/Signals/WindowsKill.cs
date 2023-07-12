@@ -1,7 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 
 // ReSharper disable InconsistentNaming
-namespace Corellian.DeathStar.WindowsKill
+namespace Corellian.DeathStar.Signals
 {
     internal static class WindowsKill
     {

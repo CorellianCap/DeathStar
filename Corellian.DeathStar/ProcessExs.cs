@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Corellian.DeathStar.Signals;
 
 namespace Corellian.DeathStar
 {
@@ -9,7 +10,9 @@ namespace Corellian.DeathStar
     {
         private static class Constants
         {
+            internal const uint WindowsKillSignal = WindowsKill.SIGNAL_TYPE_CTRL_C;
             internal const int WindowsKillRetryCount = 3;
+            internal const int UnixKillSignal = 2;
         }
 
         static ProcessExs()
@@ -19,8 +22,8 @@ namespace Corellian.DeathStar
                 var assemblyPath = Path.GetDirectoryName(Assembly.GetAssembly(typeof(ProcessExs))!.Location);
 
                 var windowsKillLibraryPath = Environment.Is64BitProcess
-                    ? Path.Combine(assemblyPath!, @"WindowsKill\x64\windows-kill-library.dll")
-                    : Path.Combine(assemblyPath!, @"WindowsKill\x86\windows-kill-library.dll");
+                    ? Path.Combine(assemblyPath!, @"Signals\x64\windows-kill-library.dll")
+                    : Path.Combine(assemblyPath!, @"Signals\x86\windows-kill-library.dll");
 
                 NativeLibrary.Load(windowsKillLibraryPath);
             }
@@ -35,7 +38,7 @@ namespace Corellian.DeathStar
                 {
                     try
                     {
-                        WindowsKill.WindowsKill.sendSignal(Convert.ToUInt32(process.Id), WindowsKill.WindowsKill.SIGNAL_TYPE_CTRL_BREAK);
+                        WindowsKill.sendSignal(Convert.ToUInt32(process.Id), Constants.WindowsKillSignal);
                         return true;
                     }
                     catch (SEHException)
@@ -46,7 +49,7 @@ namespace Corellian.DeathStar
             }
             else
             {
-                throw new PlatformNotSupportedException();
+                return UnixKill.kill(process.Id, Constants.UnixKillSignal) == 0;
             }
 
             return false;
