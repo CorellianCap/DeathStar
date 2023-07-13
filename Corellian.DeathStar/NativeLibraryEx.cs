@@ -26,7 +26,6 @@ namespace Corellian.DeathStar
             }
 
             return NativeLibrary.Load(libraryFile);
-
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.CommandLine;
+using System.CommandLine.IO;
 using System.Diagnostics;
 
 namespace Corellian.DeathStar.Tool
@@ -8,7 +9,11 @@ namespace Corellian.DeathStar.Tool
     {
         public static async Task<int> Main(string[] args)
         {
-            var processIdArgument = new Argument<int>("process-id");
+            var processIdArgument = new Argument<int>(
+                name: "process-id")
+                {
+                    Arity = ArgumentArity.ExactlyOne
+                };
 
             var rootCommand = new RootCommand("Corellian DeathStar")
             {
@@ -17,39 +22,38 @@ namespace Corellian.DeathStar.Tool
 
             rootCommand.AddArgument(processIdArgument);
 
-            rootCommand.SetHandler(Fire, processIdArgument);
+            rootCommand.SetHandler(c => Fire(c.ParseResult.GetValueForArgument(processIdArgument), c.Console));
 
             return await rootCommand.InvokeAsync(args);
         }
 
-        private static async Task Fire(int processId)
+        private static async Task Fire(int processId, IConsole console)
         {
             try
             {
                 var process = Process.GetProcessById(processId);
 
-                Console.WriteLine($"Found process with ID {process.Id} and name {process.ProcessName}.");
+                console.Out.WriteLine($"Found process with ID {process.Id} and name {process.ProcessName}.");
 
-                Console.WriteLine("Attempting to kill the process...");
+                console.Out.WriteLine("Attempting to kill the process...");
 
                 var stopResult = await process.Stop(
                     2, TimeSpan.FromSeconds(5), 4, TimeSpan.FromSeconds(5),
                     1, TimeSpan.FromSeconds(5), 4, TimeSpan.FromSeconds(5));
 
-
                 if (stopResult)
                 {
-                    Console.WriteLine("Successfully killed the process.");
+                    console.Out.WriteLine("Successfully killed the process.");
                 }
                 else
                 {
-                    Console.WriteLine("Unable to kill the process.");
+                    console.Out.WriteLine("Unable to kill the process.");
                 }
             }
             catch (ArgumentException argumentException)
             {
                 // Process is not running?
-                Console.Error.WriteLine(argumentException.Message);
+                console.Error.WriteLine(argumentException.Message);
             }
         }
     }
