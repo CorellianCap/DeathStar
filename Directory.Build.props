@@ -8,7 +8,7 @@
     <LangVersion>latest</LangVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)DeathStar.snk</AssemblyOriginatorKeyFile>
-
+    
     <NoWarn>$(NoWarn);CS1591</NoWarn>
 
     <Authors>CorellianCap</Authors>
@@ -22,5 +22,10 @@
     <RepositoryUrl>https://github.com/CorellianCap/DeathStar.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Condition="!Exists('packages.config')">
+      <PrivateAssets>all</PrivateAssets>
+      <Version>3.6.133</Version>
+    </PackageReference>
+  </ItemGroup>
 </Project>
