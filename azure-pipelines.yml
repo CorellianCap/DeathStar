@@ -16,10 +16,26 @@ variables:
   buildDotNetVersion: '6'
 
 steps:
+- checkout: self
+  fetchDepth: 0
+
 - task: UseDotNet@2
   displayName: Use .NET SDK
   inputs:
     version: '$(buildDotNetVersion).x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Install NBGV tool'
+  inputs:
+    command: custom
+    custom: tool
+    arguments: 'install --tool-path . nbgv'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
+- script: 'nbgv cloud' 
+  displayName: 'Set Version'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
 
 - task: DotNetCoreCLI@2
   displayName: Build
