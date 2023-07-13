@@ -16,6 +16,9 @@ variables:
   buildDotNetVersion: '6'
 
 steps:
+- checkout: self
+  fetchDepth: 0
+
 - task: UseDotNet@2
   displayName: Use .NET SDK
   inputs:
