@@ -10,7 +10,7 @@ namespace Corellian.DeathStar.Tool
         public static async Task<int> Main(string[] args)
         {
             var processIdArgument = new Argument<int>(
-                name: "process-id")
+                name: "process-id", description: "The ID of the process to kill.")
                 {
                     Arity = ArgumentArity.ExactlyOne
                 };
