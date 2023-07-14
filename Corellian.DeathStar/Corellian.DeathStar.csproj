@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Corellian.DeathStar</PackageId>
     <Title>Corellian DeathStar</Title>
-    <Description>A library which sends a signal to a managed process.</Description>
+    <Description>A library which extends the .NET managed process with new kill methods.</Description>
   </PropertyGroup>
 
   <ItemGroup>

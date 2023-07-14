@@ -5,7 +5,7 @@
 
     <PackageId>Corellian.DeathStar.Tool</PackageId>
     <Title>Corellian DeathStar Tool</Title>
-    <Description>A tool send a signal to a process.</Description>
+    <Description>A tool to send a signal or use .NET process kill to terminate to a process.</Description>
 
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>fire</ToolCommandName>

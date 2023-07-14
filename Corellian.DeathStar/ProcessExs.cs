@@ -52,7 +52,14 @@ namespace Corellian.DeathStar
             }
         }
 
-        public static async Task<bool> Stop(this Process process,
+        public enum StopResult
+        {
+            None,
+            Signal,
+            Kill
+        }
+
+        public static async Task<StopResult> Stop(this Process process,
             int signalKillRetryCount, TimeSpan signalKillRetryDelay, int signalKillCheckCount, TimeSpan signalKillCheckDelay,
             int processKillRetryCount, TimeSpan processKillRetryDelay, int processKillCheckCount, TimeSpan processKillCheckDelay)
         {
@@ -73,7 +80,7 @@ namespace Corellian.DeathStar
                     if (process is { HasExited: true })
                     {
                         Debug.WriteLine($"SignalKill {process.Id} has exited {process.HasExited}");
-                        return true;
+                        return StopResult.Signal;
                     }
                     Debug.WriteLine($"SignalKill {process.Id} has exited {process.HasExited}");
                 }
@@ -97,13 +104,13 @@ namespace Corellian.DeathStar
                     if (process is { HasExited: true })
                     {
                         Debug.WriteLine($"SignalKill {process.Id} has exited {process.HasExited}");
-                        return true;
+                        return StopResult.Kill;
                     }
                     Debug.WriteLine($"Kill {process.Id} has exited {process.HasExited}");
                 }
             }
 
-            return false;
+            return StopResult.None;
         }
     }
 }
