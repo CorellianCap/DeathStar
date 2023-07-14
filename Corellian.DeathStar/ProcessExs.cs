@@ -103,7 +103,7 @@ namespace Corellian.DeathStar
 
                     if (process is { HasExited: true })
                     {
-                        Debug.WriteLine($"SignalKill {process.Id} has exited {process.HasExited}");
+                        Debug.WriteLine($"Kill {process.Id} has exited {process.HasExited}");
                         return StopResult.Kill;
                     }
                     Debug.WriteLine($"Kill {process.Id} has exited {process.HasExited}");
