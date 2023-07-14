@@ -17,7 +17,8 @@ namespace Corellian.DeathStar.Tool
 
             var rootCommand = new RootCommand("Corellian DeathStar")
             {
-                Name = "fire"
+                Name = "fire",
+                Description = "A tool send a signal to a process."
             };
 
             rootCommand.AddArgument(processIdArgument);
