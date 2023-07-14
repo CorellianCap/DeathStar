@@ -43,13 +43,13 @@ namespace Corellian.DeathStar
                         // Ignore
                     }
                 }
+
+                return false;
             }
             else
             {
                 return UnixKill.kill(process.Id, Constants.UnixKillSignal) == 0;
             }
-
-            return false;
         }
 
         public static async Task<bool> Stop(this Process process,
