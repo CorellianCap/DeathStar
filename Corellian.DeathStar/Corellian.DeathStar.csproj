@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>Corellian.DeathStar</PackageId>
     <Title>Corellian DeathStar</Title>
-    <Description>Corellian DeathStar</Description>
+    <Description>A library which sends a signal to a managed process.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -5,7 +5,7 @@
 
     <PackageId>Corellian.DeathStar.Tool</PackageId>
     <Title>Corellian DeathStar Tool</Title>
-    <Description>Corellian DeathStar Tool</Description>
+    <Description>A tool send a signal to a process.</Description>
 
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>fire</ToolCommandName>
