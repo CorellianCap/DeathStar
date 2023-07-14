@@ -30,12 +30,9 @@ steps:
     command: custom
     custom: tool
     arguments: 'install --tool-path . nbgv'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - script: 'nbgv cloud' 
   displayName: 'Set Version'
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-
 
 - task: DotNetCoreCLI@2
   displayName: Build
@@ -52,10 +49,8 @@ steps:
       Corellian.DeathStar/Corellian.DeathStar.csproj;
       Corellian.DeathStar.Tool/Corellian.DeathStar.Tool.csproj;
     nobuild: true
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
 
 - task: PublishBuildArtifacts@1
   displayName: Publish
   inputs:
     ArtifactName: Drop
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
